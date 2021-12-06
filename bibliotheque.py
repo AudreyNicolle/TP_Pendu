@@ -4,15 +4,7 @@
 Created on Mon Dec  6 13:28:47 2021
 
 @author: emma.begard
-
- to do:
-     
-     fonction qui recupère un mot au hazard dans un fichier
-     fonction qui verifit si la saisie est dans le mot
-     fonction qui affiche la lettre une fois qu'elle a été trouvée, et celles d'avant aussi
-     
-     
-     
+   
 """
 import random as rd
 
@@ -76,4 +68,13 @@ def vie (vie, return_recherche ):
         
     return vie
     
-    
+def main(run= True, file):
+    """ 
+    The main programme 
+    """
+
+    word = find_word(file)
+
+    while run :
+
+        affichage()
