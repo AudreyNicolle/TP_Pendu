@@ -75,7 +75,8 @@ def vie (vie, return_recherche ):
         vie -= 1
         
     return vie
-    
+
+
 def recherche(lst_lettre_mot, lettre) :
     """ 
     breif : recherche la lettre donné par le joueur dans le mot. Si la lettre
@@ -142,3 +143,22 @@ def saisie() :
         return saisie()
     else :
         return lettre  
+     return affiche   
+
+
+
+def main(run= True, file):
+    """ 
+    The main programme 
+    """
+    vie = 8
+    word = find_word(file)
+
+    while run :
+
+        if vie >= 1:
+
+            affichage(word, str(input("Enterez une lettre")), vie )
+        else :
+            print("sorry, you lose")
+            run = False
