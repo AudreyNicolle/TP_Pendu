@@ -3,7 +3,7 @@
 """
 Created on Mon Dec  6 13:28:47 2021
 
-@author: emma.begard
+@author: emma.begard et audrey.nicolle
 
  to do:
      
@@ -77,23 +77,22 @@ def vie (vie, return_recherche ):
     return vie
     
 def recherche(lst_lettre_mot, lettre) :
-     """ 
-     breif : recherche la lettre donné par le joueur dans le mot. Si la lettre
+    """ 
+    breif : recherche la lettre donné par le joueur dans le mot. Si la lettre
              est dans le mot, on donne sa position dans le mot et la valeur true
              ou alors on retourne False et -1.
-     param : lst_lettre_mot => liste qui contient les lettres du mots.(lst)
+    param : lst_lettre_mot => liste qui contient les lettres du mots.(lst)
              lettre => lettre donné par le joueur (input programme principal)(str)
-     retval : tuple(Booléen,position de la lettre dans le mot ou -1).
-     """
-     #on recherche la lettre dans le mot 
-     for indice,L in enumerate(lst_lettre_mot) : 
-         if L == lettre : 
-             return (True,indice)
-         return (False,-1)
-         
-    
-def affichage (affiche,lst_lettre_mot,lettre, valeur_vie) :
-     """
+    retval : tuple(Booléen,position de la lettre dans le mot ou -1).
+    """
+    #on recherche la lettre dans le mot 
+    for indice,L in enumerate(lst_lettre_mot) : 
+        if L == lettre : 
+            return (True,indice)
+    return (False,-1)
+
+def affichage (affiche,lst_lettre_mot, valeur_vie) :
+    """
      breif : affiche les lettres du mot ou des underscores si la lettre n'a pas 
              été deviné
      param : lst_lettre_mot => liste qui contient les lettres du mots.(lst)
@@ -101,20 +100,45 @@ def affichage (affiche,lst_lettre_mot,lettre, valeur_vie) :
      retval : affiche => str du mot que le joueur voit ou la str "ok" si le joeur 
              a gagné
      """
-     if lettre.lower() in ['1','2','3','4','5','6','7','8','9']:
-         return "Vous n'avez pas rentré une lettre"
+    #initailisation des differentes variables
+    lettre = saisie()
+    vie_restante = vie(valeur_vie,recherche(lst_lettre_mot,lettre))
+    T_pos_lettre = recherche(lst_lettre_mot,lettre)
      
-     vie_restante = vie(valeur_vie,recherche)
-     T_pos_lettre = recherche(lst_lettre_mot,lettre)
-     
-     if T_pos_lettre[0] :
-         affiche[T_pos_lettre[1]] = lettre
-         print(affiche,"/n Nombre de chance restante : " + vie_restante)
-         if not '_' in affiche : # on verifie si le joueur a trouvé le mot en entier
-             print("Bravo ! C'est gagné !")
-             return "ok"            
-     else : 
-         print("Attention, la pendaison se rapproche. /n \
-               Nombre de chance restante : "  + vie_restante)
+    if T_pos_lettre[0] :
+        affiche[T_pos_lettre[1]] = lettre
+        print(affiche,"/n Nombre de chance restante : " + vie_restante)
+        if not '_' in affiche : # on verifie si le joueur a trouvé le mot en entier
+            print("Bravo ! C'est gagné !")
+            return "ok"            
+    else : 
+        print("Attention, la pendaison se rapproche. /n \
+              Nombre de chance restante : "  + vie_restante)
     
-     return affiche      
+    return affiche   
+ 
+def init_affichage(lst_lettre_mot):
+    """ 
+    brief : initialise l'affichage du mot pour le joueur'
+    param : lst_lettre_mot => liste qui contient les lettres du mots.(lst)
+    retval : l'affichage du mot ou on voit la première lettre et des underscores
+    """
+    underscore =''
+    i = 0
+    while i < len(lst_lettre_mot) : 
+        underscore += '_'
+        i = i+1
+    return lst_lettre_mot[0] + underscore
+
+def saisie() :
+    """"
+    breif : permet de récupérer le mot saisi par l'utilisateur
+    param : none
+    retval : rappel saisie si lettre non conforme ou retourne la lettre
+    """
+    lettre = input("Veuillez saisir une lettre : ")
+    if lettre.lower() in ['1','2','3','4','5','6','7','8','9']:
+        print( "Vous n'avez pas rentré une lettre")
+        return saisie()
+    else :
+        return lettre  
