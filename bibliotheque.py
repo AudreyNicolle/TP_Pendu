@@ -110,7 +110,9 @@ def affichage (affiche,lst_lettre_mot,lettre, valeur_vie) :
          print("Attention, la pendaison se rapproche. /n \
                Nombre de chance restante : "  + vie_restante)
     
-     return affiche      
+     return affiche   
+
+
 
 def main(run= True, file):
     """ 
