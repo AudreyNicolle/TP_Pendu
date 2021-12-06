@@ -47,13 +47,15 @@ def find_word(file):
             lst.extend(a)
     
     # a word within the list of words
-    num = rd.randint( 0, len(lst) )
+    num = rd.randint( 0, len(lst)-1 )
     # making a list out of the word's letters
     for lettre in lst[num]:
         word.append(lettre)
+        
+    print("le mot a trouver est ", word)
     return word
     
-def vie (vie, return_recherche ):
+def fonc_vie (vie, return_recherche ):
     """
     updates the life bar 
     
@@ -86,37 +88,56 @@ def recherche(lst_lettre_mot, lettre) :
              lettre => lettre donné par le joueur (input programme principal)(str)
     retval : tuple(Booléen,position de la lettre dans le mot ou -1).
     """
-    #on recherche la lettre dans le mot 
-    for indice,L in enumerate(lst_lettre_mot) : 
-        if L == lettre : 
-            return (True,indice)
-    return (False,-1)
 
-def affichage (affiche,lst_lettre_mot, valeur_vie) :
+    ind = []
+    is_here = False
+    
+    #we look for the letter in teh word
+    for indice,L in enumerate(lst_lettre_mot) : 
+        
+        if L == lettre : 
+            ind.append(indice)
+    # if we found 'letter' once or more        
+    if len(ind) != 0:
+        return(True, ind)
+    
+    else :
+        return(False, [])
+
+
+def affichage (affiche,lst_lettre_mot, lettre) :
     """
      breif : affiche les lettres du mot ou des underscores si la lettre n'a pas 
              été deviné
      param : lst_lettre_mot => liste qui contient les lettres du mots.(lst)
              T_pos_lettre => (booleen,poqition de la lettre dans le mot (int))(tuple)
-     retval : affiche => str du mot que le joueur voit ou la str "ok" si le joeur 
-             a gagné
+             lettre => the letter
+     retval : affiche => str du mot que le joueur voit 
+             end => True si le jouer a trouvé, sinon False
      """
-    #initailisation des differentes variables
-    lettre = saisie()
-    vie_restante = vie(valeur_vie,recherche(lst_lettre_mot,lettre))
-    T_pos_lettre = recherche(lst_lettre_mot,lettre)
-     
-    if T_pos_lettre[0] :
-        affiche[T_pos_lettre[1]] = lettre
-        print(affiche,"/n Nombre de chance restante : " + vie_restante)
-        if not '_' in affiche : # on verifie si le joueur a trouvé le mot en entier
-            print("Bravo ! C'est gagné !")
-            return "ok"            
-    else : 
-        print("Attention, la pendaison se rapproche. /n \
-              Nombre de chance restante : "  + vie_restante)
     
-    return affiche   
+
+    # a tuple ( True: the letter is in teh word, indice)
+    T_pos_lettre = recherche(lst_lettre_mot,lettre)
+    
+    print("mot dans affiche avant remplacement", affiche)
+
+    # if the letter is in the word
+    if T_pos_lettre[0] :
+        
+        end = False
+       
+        for i in T_pos_lettre[1]:
+            # we remove the '_'
+            affiche = affiche[0:i]+str(lettre)+affiche[i+1:]
+            # the str of teh word and if we found the word
+            
+        if not '_' in affiche : # on verifie si le joueur a trouvé le mot en entier
+            end = True
+               
+        return (affiche, end)
+
+    return (affiche, False)
  
 def init_affichage(lst_lettre_mot):
     """ 
@@ -126,7 +147,7 @@ def init_affichage(lst_lettre_mot):
     """
     underscore =''
     i = 0
-    while i < len(lst_lettre_mot) : 
+    while i < len(lst_lettre_mot)-1 : 
         underscore += '_'
         i = i+1
     return lst_lettre_mot[0] + underscore
@@ -142,23 +163,67 @@ def saisie() :
         print( "Vous n'avez pas rentré une lettre")
         return saisie()
     else :
-        return lettre  
+        return lettre 
+    
+    
+def play_again():
+    """
+    allow us to play as much as we want
+    """
+    val = input('Voulez-vous rejouer ? : Oui:O Non:N \n')
+    if val =="O":
+        return True
+    elif val =="N":
+        return False
+    else :
+        print("Erreur de saisie")
+        return play_again()
 
 
-
-
-def main(run= True, file):
+def partie(run, file):
     """ 
     The main programme 
+    run : a boolean to run the game
+    file : the file with all the words
     """
     vie = 8
+    # we choose a word
     word = find_word(file)
+    # initialisation of the "_" list
+    affiche = init_affichage(word)
+    print("Le mot à deviner est " ,affiche)
 
     while run :
+        
+        #initailisation des differentes variables
+        lettre = saisie()
+        
+        #print("dans while", affiche)
+        if vie > 0:
+            
+            result= affichage(affiche, word, lettre)
+            affiche = result[0]
+            fin =result[1]
+            vie = fonc_vie(vie, recherche(word,lettre)[0])
+            print("Le mot à deviner est ", affiche)
+            print("points de vie", vie)
+            
+            if fin :
+                print("Gagné !")
+                return +1
 
-        if vie >= 1:
-
-            affichage(word, str(input("Enterez une lettre")), vie )
         else :
-            print("sorry, you lose")
+            print("Perdu !")
             run = False
+            return -1
+    """"
+    breif : permet de récupérer le mot saisi par l'utilisateur
+    param : none
+    retval : rappel saisie si lettre non conforme ou retourne la lettre
+    """
+    lettre = input("Veuillez saisir une lettre : ")
+    if lettre.lower() in ['1','2','3','4','5','6','7','8','9']:
+        print( "Vous n'avez pas rentré une lettre")
+        return saisie()
+    else :
+        return lettre  

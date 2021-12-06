@@ -1,24 +1,37 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Dec  6 15:56:58 2021
+
+@author: emma.begard
+"""
+
 import bibliotheque as b
 
-def main(run= True, file):
-    """ 
-    The main programme 
+
+
+
+def main(file):
     """
-    vie = 8
-    word = b.find_word(file)
-    # initialisation of the "_" list
-    affiche = b.init_affichage(word)
+     fait touner le jeux tant que l'on veut continuer à jouer
+         
+         file :  le fichier contenant tt les mots 
+    """
+    play =True
+    score = 0
+    
+    while play :
+        
+        # we once
+        score += b.partie(True, file)
+        print('Vous avez un score de :{}'.format(score) )
+        
+        # if we wanna play again
+        reponse = b.play_again()
+        
+        if reponse== False:
+            print('Vous avez un score de :{}'.format(score) )
+            play = False
 
-    while run :
 
-        if vie >= 1:
-
-            if b.affichage(affiche, word, vie)== 'ok':
-                vie = 0
-            else :
-                vie = b.vie(vie)
-                affiche = b.affichage(affiche, word, vie)
-
-        else :
-            print("sorry, you lose")
-            run = False
+main("fichier_mots.txt")
