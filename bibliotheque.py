@@ -68,6 +68,7 @@ def vie (vie, return_recherche ):
         
     return vie
     
+<<<<<<< HEAD
 def main(run= True, file):
     """ 
     The main programme 
@@ -78,3 +79,47 @@ def main(run= True, file):
     while run :
 
         affichage()
+=======
+def recherche(lst_lettre_mot, lettre) :
+     """ 
+     breif : recherche la lettre donné par le joueur dans le mot. Si la lettre
+             est dans le mot, on donne sa position dans le mot et la valeur true
+             ou alors on retourne False et -1.
+     param : lst_lettre_mot => liste qui contient les lettres du mots.(lst)
+             lettre => lettre donné par le joueur (input programme principal)(str)
+     retval : tuple(Booléen,position de la lettre dans le mot ou -1).
+     """
+     #on recherche la lettre dans le mot 
+     for indice,L in enumerate(lst_lettre_mot) : 
+         if L == lettre : 
+             return (True,indice)
+         return (False,-1)
+         
+    
+def affichage (affiche,lst_lettre_mot,lettre, valeur_vie) :
+     """
+     breif : affiche les lettres du mot ou des underscores si la lettre n'a pas 
+             été deviné
+     param : lst_lettre_mot => liste qui contient les lettres du mots.(lst)
+             T_pos_lettre => (booleen,poqition de la lettre dans le mot (int))(tuple)
+     retval : affiche => str du mot que le joueur voit ou la str "ok" si le joeur 
+             a gagné
+     """
+     if lettre.lower() in ['1','2','3','4','5','6','7','8','9']:
+         return "Vous n'avez pas rentré une lettre"
+     
+     vie_restante = vie(valeur_vie,recherche)
+     T_pos_lettre = recherche(lst_lettre_mot,lettre)
+     
+     if T_pos_lettre[0] :
+         affiche[T_pos_lettre[1]] = lettre
+         print(affiche,"/n Nombre de chance restante : " + vie_restante)
+         if not '_' in affiche : # on verifie si le joueur a trouvé le mot en entier
+             print("Bravo ! C'est gagné !")
+             return "ok"            
+     else : 
+         print("Attention, la pendaison se rapproche. /n \
+               Nombre de chance restante : "  + vie_restante)
+    
+     return affiche      
+>>>>>>> 36cb06406e2d5b1f7206b986c875781fce10aafd
