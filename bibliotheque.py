@@ -143,7 +143,7 @@ def saisie() :
         return saisie()
     else :
         return lettre  
-     return affiche   
+
 
 
 
