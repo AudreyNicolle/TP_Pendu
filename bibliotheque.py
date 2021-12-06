@@ -67,19 +67,8 @@ def vie (vie, return_recherche ):
         vie -= 1
         
     return vie
-    
-<<<<<<< HEAD
-def main(run= True, file):
-    """ 
-    The main programme 
-    """
 
-    word = find_word(file)
 
-    while run :
-
-        affichage()
-=======
 def recherche(lst_lettre_mot, lettre) :
      """ 
      breif : recherche la lettre donné par le joueur dans le mot. Si la lettre
@@ -122,4 +111,19 @@ def affichage (affiche,lst_lettre_mot,lettre, valeur_vie) :
                Nombre de chance restante : "  + vie_restante)
     
      return affiche      
->>>>>>> 36cb06406e2d5b1f7206b986c875781fce10aafd
+
+def main(run= True, file):
+    """ 
+    The main programme 
+    """
+    vie = 8
+    word = find_word(file)
+
+    while run :
+
+        if vie >= 1:
+
+            affichage(word, str(input("Enterez une lettre")), vie )
+        else :
+            print("sorry, you lose")
+            run = False
